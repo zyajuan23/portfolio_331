@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yajuan Zhang · Legal Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Noto+Serif+SC:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1a18;
+  --paper: #f5f2eb;
+  --accent: #8b4513;
+  --accent-light: #c4783a;
+  --green: #3a6645;
+  --red-no: #b94040;
+  --rule: #c8c0b0;
+  --muted: #7a7468;
+  --card-bg: #faf8f3;
+  --modal-bg: rgba(26,26,24,0.75);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Cormorant Garamond','Noto Serif SC',serif;
+  font-size: 18px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* NAV */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:200;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:1.2rem 6%;
+  background:rgba(245,242,235,0.94);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--rule);
+}
+.nav-name { font-family:'DM Mono',monospace; font-size:0.75rem; letter-spacing:0.12em; color:var(--muted); text-transform:uppercase; }
+.nav-links { display:flex; gap:2.5rem; }
+.nav-links a { text-decoration:none; font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.1em; color:var(--muted); text-transform:uppercase; transition:color 0.2s; }
+.nav-links a:hover { color:var(--accent); }
+
+/* HERO */
+.hero {
+  min-height:100vh;
+  display:grid; grid-template-columns:1fr 1fr;
+  padding-top:70px;
+}
+.hero-left {
+  display:flex; flex-direction:column; justify-content:center;
+  padding:6rem 4rem 6rem 6%;
+  border-right:1px solid var(--rule);
+}
+.hero-eyebrow { font-family:'DM Mono',monospace; font-size:0.68rem; letter-spacing:0.2em; color:var(--accent); text-transform:uppercase; margin-bottom:1.5rem; }
+.hero-name { font-size:clamp(2.8rem,4.5vw,5rem); font-weight:300; line-height:1.05; letter-spacing:-0.02em; margin-bottom:0.3rem; }
+.hero-name-cn { font-family:'Noto Serif SC',serif; font-size:1.5rem; font-weight:300; color:var(--muted); margin-bottom:2.5rem; letter-spacing:0.12em; }
+.hero-desc { font-size:1rem; color:var(--muted); max-width:40ch; line-height:1.9; margin-bottom:3rem; font-style:italic; }
+.hero-certs { display:flex; flex-direction:column; gap:0.7rem; }
+.cert-item { display:flex; align-items:center; gap:0.8rem; font-family:'DM Mono',monospace; font-size:0.68rem; letter-spacing:0.07em; color:var(--muted); }
+.cert-dot { width:5px; height:5px; border-radius:50%; background:var(--accent); flex-shrink:0; }
+
+.hero-right {
+  display:flex; flex-direction:column; justify-content:center;
+  padding:6rem 6% 6rem 4rem;
+}
+.expertise-title { font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.15em; color:var(--muted); text-transform:uppercase; margin-bottom:1rem; border-bottom:1px solid var(--rule); padding-bottom:0.5rem; }
+.tags { display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:3rem; }
+.tag { font-family:'DM Mono',monospace; font-size:0.63rem; letter-spacing:0.07em; padding:0.3rem 0.8rem; border:1px solid var(--rule); color:var(--muted); background:var(--card-bg); }
+.tag.primary { border-color:var(--accent); color:var(--accent); }
+
+/* quote block in hero */
+.hero-quote {
+  border-left:3px solid var(--accent);
+  padding:1.2rem 1.5rem;
+  background:var(--card-bg);
+  font-style:italic;
+  font-size:0.95rem;
+  color:var(--muted);
+  line-height:1.8;
+}
+.hero-quote cite { display:block; margin-top:0.8rem; font-family:'DM Mono',monospace; font-size:0.6rem; letter-spacing:0.1em; font-style:normal; color:var(--accent-light); }
+
+/* SECTION HEADER */
+.section-header { display:flex; align-items:center; gap:1.5rem; margin-bottom:3rem; }
+.section-num { font-family:'DM Mono',monospace; font-size:0.62rem; letter-spacing:0.2em; color:var(--accent); }
+.section-title { font-size:2rem; font-weight:300; }
+.section-rule { flex:1; height:1px; background:var(--rule); }
+
+/* PORTFOLIO */
+#works { padding:8rem 6%; border-top:1px solid var(--rule); }
+
+.work-item {
+  border:1px solid var(--rule);
+  margin-bottom:3px;
+  background:var(--card-bg);
+  transition:transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+}
+.work-item:hover { transform:translateX(4px); box-shadow:-4px 0 0 var(--accent); border-color:var(--accent-light); }
+
+.work-header {
+  display:grid; grid-template-columns:160px 1fr;
+}
+.work-meta {
+  padding:2.5rem 1.8rem;
+  border-right:1px solid var(--rule);
+  display:flex; flex-direction:column; gap:0.7rem;
+}
+.work-year { font-family:'DM Mono',monospace; font-size:0.62rem; letter-spacing:0.1em; color:var(--accent); }
+.work-category { font-family:'DM Mono',monospace; font-size:0.58rem; letter-spacing:0.07em; color:var(--muted); text-transform:uppercase; line-height:1.6; }
+.work-badge { display:inline-block; font-family:'DM Mono',monospace; font-size:0.55rem; letter-spacing:0.05em; padding:0.25rem 0.6rem; background:var(--accent); color:var(--paper); margin-top:auto; }
+
+.work-main { padding:2.5rem 3rem; }
+.work-en-title { font-size:1.25rem; font-weight:400; line-height:1.3; margin-bottom:0.25rem; letter-spacing:-0.01em; }
+.work-cn-title { font-family:'Noto Serif SC',serif; font-size:0.88rem; color:var(--muted); margin-bottom:0.8rem; font-weight:300; }
+.work-org { font-family:'DM Mono',monospace; font-size:0.62rem; letter-spacing:0.07em; color:var(--accent-light); text-transform:uppercase; margin-bottom:1rem; }
+.work-desc { font-size:0.93rem; color:var(--muted); line-height:1.85; margin-bottom:1.5rem; font-style:italic; }
+
+/* Legal diagram area */
+.work-diagram { padding:0 3rem 2.5rem; border-top:1px solid var(--rule); }
+.diagram-label {
+  font-family:'DM Mono',monospace; font-size:0.63rem; letter-spacing:0.1em; color:var(--muted);
+  text-transform:uppercase; padding:1rem 0 0.5rem;
+  border-bottom:1px solid var(--rule); margin-bottom:0.5rem;
+  display:block;
+}
+.diagram-content { display:block; padding:1.5rem 0; }
+
+/* SVG diagram styles */
+.legal-diagram svg { width:100%; height:auto; }
+
+/* Work footer */
+.work-footer {
+  display:flex; justify-content:space-between; align-items:center;
+  flex-wrap:wrap; gap:1rem;
+  padding:1.2rem 3rem;
+  border-top:1px solid var(--rule);
+}
+.work-tags { display:flex; flex-wrap:wrap; gap:0.4rem; }
+.work-tag { font-family:'DM Mono',monospace; font-size:0.58rem; padding:0.2rem 0.6rem; border:1px solid var(--rule); color:var(--muted); }
+.btn-group { display:flex; gap:0.6rem; flex-wrap:wrap; }
+
+.btn {
+  display:inline-flex; align-items:center; gap:0.5rem;
+  font-family:'DM Mono',monospace; font-size:0.62rem; letter-spacing:0.07em;
+  padding:0.55rem 1.1rem; text-decoration:none; text-transform:uppercase;
+  transition:all 0.2s; cursor:pointer; border:none;
+}
+.btn-download { border:1px solid var(--accent); color:var(--accent); background:transparent; }
+.btn-download:hover { background:var(--accent); color:var(--paper); }
+.btn-preview { border:1px solid var(--rule); color:var(--muted); background:transparent; }
+.btn-preview:hover { border-color:var(--muted); color:var(--ink); }
+
+/* MODAL */
+.modal-overlay {
+  position:fixed; inset:0; z-index:500;
+  background:var(--modal-bg);
+  display:none; align-items:center; justify-content:center;
+  padding:2rem;
+}
+.modal-overlay.open { display:flex; }
+.modal-box {
+  background:var(--paper);
+  border:1px solid var(--rule);
+  max-width:720px; width:100%;
+  max-height:85vh; overflow-y:auto;
+  position:relative;
+}
+.modal-header {
+  display:flex; justify-content:space-between; align-items:flex-start;
+  padding:2rem 2.5rem 1.5rem;
+  border-bottom:1px solid var(--rule);
+  position:sticky; top:0; background:var(--paper); z-index:2;
+}
+.modal-title { font-size:1.1rem; font-weight:400; max-width:80%; line-height:1.4; }
+.modal-close {
+  font-family:'DM Mono',monospace; font-size:0.7rem; background:none; border:none;
+  cursor:pointer; color:var(--muted); letter-spacing:0.1em; padding:0.3rem 0.6rem;
+  border:1px solid var(--rule); transition:all 0.2s;
+}
+.modal-close:hover { color:var(--ink); border-color:var(--ink); }
+.modal-body { padding:2rem 2.5rem; }
+.modal-section { margin-bottom:2rem; }
+.modal-section-label {
+  font-family:'DM Mono',monospace; font-size:0.6rem; letter-spacing:0.15em;
+  color:var(--accent); text-transform:uppercase; margin-bottom:0.8rem;
+  border-bottom:1px solid var(--rule); padding-bottom:0.4rem;
+}
+.modal-section p { font-size:0.9rem; color:var(--muted); line-height:1.8; font-style:italic; }
+.modal-excerpt {
+  background:var(--card-bg); border:1px solid var(--rule);
+  padding:1.2rem 1.5rem; margin-top:0.8rem;
+  font-size:0.88rem; line-height:1.8; color:var(--ink);
+}
+.modal-excerpt blockquote {
+  border-left:3px solid var(--accent); padding-left:1rem;
+  font-style:italic; color:var(--muted); margin-bottom:1rem;
+}
+.modal-excerpt ul { list-style:none; }
+.modal-excerpt ul li { padding:0.4rem 0; border-bottom:1px solid var(--rule); font-size:0.85rem; display:flex; gap:0.7rem; }
+.modal-excerpt ul li:last-child { border-bottom:none; }
+.modal-excerpt ul li::before { content:"→"; color:var(--accent); flex-shrink:0; }
+.modal-download { margin-top:1.5rem; text-align:right; }
+
+/* ABOUT */
+#about { padding:8rem 6%; border-top:1px solid var(--rule); }
+.about-grid { display:grid; grid-template-columns:1fr 1fr; gap:6rem; }
+.about-text p { font-size:0.95rem; color:var(--muted); line-height:1.9; margin-bottom:1.2rem; font-style:italic; }
+.about-text strong { color:var(--ink); font-style:normal; }
+.certs-grid { display:grid; grid-template-columns:1fr 1fr; gap:1px; border:1px solid var(--rule); margin-top:2rem; }
+.cert-card { padding:1.5rem; border:1px solid var(--rule); }
+.cert-icon { font-size:1.4rem; margin-bottom:0.5rem; }
+.cert-name { font-size:0.9rem; font-weight:400; margin-bottom:0.2rem; }
+.cert-sub { font-family:'DM Mono',monospace; font-size:0.58rem; letter-spacing:0.06em; color:var(--muted); }
+
+/* CONTACT */
+#contact { padding:8rem 6%; border-top:1px solid var(--rule); display:grid; grid-template-columns:1fr 1fr; gap:6rem; align-items:start; }
+.contact-left h2 { font-size:2.5rem; font-weight:300; line-height:1.2; margin-bottom:1.5rem; }
+.contact-left p { font-size:0.95rem; color:var(--muted); font-style:italic; line-height:1.8; }
+.contact-item { display:grid; grid-template-columns:90px 1fr; padding:1.1rem 0; border-bottom:1px solid var(--rule); align-items:baseline; gap:1rem; }
+.contact-label { font-family:'DM Mono',monospace; font-size:0.6rem; letter-spacing:0.12em; color:var(--accent); text-transform:uppercase; }
+.contact-value { font-size:0.92rem; }
+.contact-value a { color:var(--ink); text-decoration:none; border-bottom:1px solid var(--rule); }
+.contact-value a:hover { border-color:var(--accent); color:var(--accent); }
+
+footer { padding:2rem 6%; border-top:1px solid var(--rule); display:flex; justify-content:space-between; }
+footer span { font-family:'DM Mono',monospace; font-size:0.6rem; letter-spacing:0.07em; color:var(--muted); }
+
+/* Animations */
+@keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+.hero-left > * { animation:fadeUp 0.7s ease forwards; opacity:0; }
+.hero-left > *:nth-child(1){animation-delay:0.1s}
+.hero-left > *:nth-child(2){animation-delay:0.2s}
+.hero-left > *:nth-child(3){animation-delay:0.3s}
+.hero-left > *:nth-child(4){animation-delay:0.4s}
+.hero-left > *:nth-child(5){animation-delay:0.5s}
+
+@media(max-width:900px){
+  nav{padding:1rem 4%}
+  .nav-links{gap:1.2rem}
+  .hero{grid-template-columns:1fr}
+  .hero-left{padding:5rem 5% 3rem; border-right:none; border-bottom:1px solid var(--rule)}
+  .hero-right{padding:3rem 5% 5rem}
+  .work-header{grid-template-columns:1fr}
+  .work-meta{border-right:none; border-bottom:1px solid var(--rule); flex-direction:row; flex-wrap:wrap}
+  .work-main,.work-diagram,.work-footer{padding-left:1.5rem; padding-right:1.5rem}
+  .about-grid{grid-template-columns:1fr; gap:3rem}
+  #contact{grid-template-columns:1fr; gap:3rem}
+  #works,#about,#contact{padding:5rem 5%}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-name">Yajuan Zhang · 张疋娟</span>
+  <div class="nav-links">
+    <a href="#works">Portfolio</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Legal Portfolio · 法律作品集</div>
+    <h1 class="hero-name">Yajuan<br>Zhang</h1>
+    <div class="hero-name-cn">张疋娟</div>
+    <p class="hero-desc">
+      LLM International Commercial Law, University of Bristol.
+      Specialising in cross-border data compliance, international contract law,
+      and smart legal contracts.
+    </p>
+    <div class="hero-certs">
+      <div class="cert-item"><span class="cert-dot"></span>National Legal Professional Qualification · 国家法律职业资格</div>
+      <div class="cert-item"><span class="cert-dot"></span>CIPP/E · EU Privacy Compliance Certified</div>
+      <div class="cert-item"><span class="cert-dot"></span>PTE 74 · Equivalent to IELTS 7.5–8.0</div>
+      <div class="cert-item"><span class="cert-dot"></span>University of Bristol LLM · Cohort Top 10%</div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="expertise-title">Core Expertise</div>
+    <div class="tags">
+      <span class="tag primary">GDPR / PIPL</span>
+      <span class="tag primary">CISG</span>
+      <span class="tag primary">Smart Legal Contracts</span>
+      <span class="tag">Cross-border Compliance</span>
+      <span class="tag">Contract Review &amp; Drafting</span>
+      <span class="tag">Data Protection</span>
+      <span class="tag">International Arbitration</span>
+      <span class="tag">Supply Chain Law</span>
+      <span class="tag">Legal Risk Assessment</span>
+    </div>
+    <div class="hero-quote">
+      "The key analytical move is separating likelihood of harm from certainty of breach —
+      two legally distinct thresholds that are routinely conflated in compliance practice."
+      <cite>— GDPR Data Breach Memo, §2.3</cite>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="works">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Portfolio · 作品集</h2>
+    <div class="section-rule"></div>
+  </div>
+
+  <!-- ══ WORK 1: GDPR ══ -->
+  <div class="work-item">
+    <div class="work-header">
+      <div class="work-meta">
+        <div class="work-year">2024–2025</div>
+        <div class="work-category">Data Compliance<br>数据合规</div>
+        <div class="work-badge">HSF · CC · DLA PIPER</div>
+      </div>
+      <div class="work-main">
+        <h3 class="work-en-title">GDPR Data Breach — Preliminary Legal Advice</h3>
+        <div class="work-cn-title">GDPR 数据泄露 · 客户法律意见书</div>
+        <div class="work-org">Herbert Smith Freehills · Clifford Chance · DLA Piper Virtual Training · University of Bristol</div>
+        <p class="work-desc">
+          Prepared as part of a joint digital law virtual training programme with three elite international firms.
+          Acting as legal counsel to Alpha Tech Ltd. following a cyberattack at its EU data centre —
+          assessing liability exposure across breach of confidence and GDPR Articles 4, 5 and 28.
+        </p>
+      </div>
+    </div>
+
+    <div class="work-diagram">
+      <span class="diagram-label">Legal Analysis · Art. 33 Notification Decision Tree</span>
+      <div class="diagram-content">
+        <p style="font-size:0.82rem;color:var(--muted);font-style:italic;margin-bottom:1.2rem;font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.06em;">
+          Maps the controller's determination of whether a personal data breach triggers mandatory supervisory authority notification within 72 hours.
+        </p>
+        <svg viewBox="0 0 800 560" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;display:block;margin:0 auto;">
+          <style>
+            .d-box { fill:#1a1a18; }
+            .d-box-q { fill:none; stroke:#1a1a18; stroke-width:1.5; }
+            .d-box-end-g { fill:none; stroke:#3a6645; stroke-width:1.5; }
+            .d-box-end-r { fill:#f5f2eb; stroke:#c8c0b0; stroke-width:1.5; }
+            .d-txt { font-family:'Cormorant Garamond',serif; font-size:13px; fill:#1a1a18; text-anchor:middle; }
+            .d-txt-w { font-family:'Cormorant Garamond',serif; font-size:13px; fill:#f5f2eb; text-anchor:middle; }
+            .d-txt-m { font-family:'Cormorant Garamond',serif; font-size:12px; fill:#7a7468; text-anchor:middle; }
+            .d-label { font-family:'DM Mono',monospace; font-size:9px; fill:#b94040; }
+            .d-label-g { font-family:'DM Mono',monospace; font-size:9px; fill:#3a6645; }
+            .d-line-n { stroke:#b94040; stroke-width:1.5; fill:none; }
+            .d-line-y { stroke:#3a6645; stroke-width:1.5; fill:none; }
+            .d-line-g { stroke:#c8c0b0; stroke-width:1.5; fill:none; }
+          </style>
+          <!-- START -->
+          <rect x="270" y="20" width="260" height="44" class="d-box" rx="3"/>
+          <text x="400" y="46" class="d-txt-w">Security incident detected</text>
+          <!-- arrow down -->
+          <line x1="400" y1="64" x2="400" y2="96" class="d-line-g"/>
+          <polygon points="400,96 395,86 405,86" fill="#c8c0b0"/>
+          <!-- Q1 -->
+          <rect x="200" y="96" width="400" height="52" class="d-box-q" rx="3"/>
+          <text x="400" y="118" class="d-txt">Does the incident involve a breach</text>
+          <text x="400" y="136" class="d-txt">of personal data? (Art. 4(12))</text>
+          <!-- NO left -->
+          <line x1="200" y1="122" x2="100" y2="122" class="d-line-n"/>
+          <line x1="100" y1="122" x2="100" y2="220" class="d-line-n"/>
+          <text x="148" y="116" class="d-label">NO</text>
+          <!-- YES down -->
+          <line x1="400" y1="148" x2="400" y2="178" class="d-line-y"/>
+          <polygon points="400,178 395,168 405,168" fill="#3a6645"/>
+          <text x="412" y="166" class="d-label-g">YES</text>
+          <!-- Q2 -->
+          <rect x="200" y="178" width="400" height="52" class="d-box-q" rx="3"/>
+          <text x="400" y="200" class="d-txt">Is the risk to data subjects' rights</text>
+          <text x="400" y="218" class="d-txt">"unlikely"? (Art. 33(1))</text>
+          <!-- YES right -->
+          <line x1="600" y1="204" x2="700" y2="204" class="d-line-y"/>
+          <text x="643" y="198" class="d-label-g">YES</text>
+          <!-- NO down -->
+          <line x1="400" y1="230" x2="400" y2="262" class="d-line-n"/>
+          <polygon points="400,262 395,252 405,252" fill="#b94040"/>
+          <text x="412" y="250" class="d-label">NO</text>
+          <!-- END node: no gdpr -->
+          <rect x="30" y="200" width="140" height="52" class="d-box-end-r" rx="3"/>
+          <text x="100" y="222" class="d-txt-m">No GDPR breach</text>
+          <text x="100" y="240" class="d-txt-m">Record &amp; monitor</text>
+          <!-- Q3 -->
+          <rect x="200" y="262" width="400" height="52" class="d-box-q" rx="3"/>
+          <text x="400" y="284" class="d-txt">Is the notifying entity a processor</text>
+          <text x="400" y="302" class="d-txt">acting for a controller?</text>
+          <!-- YES left -->
+          <line x1="200" y1="288" x2="100" y2="288" class="d-line-y"/>
+          <line x1="100" y1="288" x2="100" y2="380" class="d-line-y"/>
+          <text x="148" y="282" class="d-label-g">YES</text>
+          <!-- NO down -->
+          <line x1="400" y1="314" x2="400" y2="346" class="d-line-n"/>
+          <polygon points="400,346 395,336 405,336" fill="#b94040"/>
+          <text x="412" y="334" class="d-label">NO</text>
+          <!-- END node: no notification -->
+          <rect x="630" y="178" width="140" height="52" class="d-box-end-g" rx="3"/>
+          <text x="700" y="200" class="d-txt-m">No notification</text>
+          <text x="700" y="218" class="d-txt-m">required — document</text>
+          <!-- Q4 -->
+          <rect x="200" y="346" width="400" height="52" class="d-box-q" rx="3"/>
+          <text x="400" y="368" class="d-txt">Can notification be made within</text>
+          <text x="400" y="386" class="d-txt">72 hours? (Art. 33(1))</text>
+          <!-- YES right -->
+          <line x1="600" y1="372" x2="700" y2="372" class="d-line-y"/>
+          <line x1="700" y1="372" x2="700" y2="440" class="d-line-y"/>
+          <polygon points="700,440 695,430 705,430" fill="#3a6645"/>
+          <text x="643" y="366" class="d-label-g">YES</text>
+          <!-- NO down -->
+          <line x1="400" y1="398" x2="400" y2="430" class="d-line-n"/>
+          <polygon points="400,430 395,420 405,420" fill="#b94040"/>
+          <text x="412" y="418" class="d-label">NO</text>
+          <!-- processor path -->
+          <line x1="100" y1="380" x2="100" y2="456" class="d-line-y"/>
+          <polygon points="100,456 95,446 105,446" fill="#3a6645"/>
+          <!-- END: notify controller -->
+          <rect x="30" y="456" width="140" height="52" class="d-box-end-g" rx="3"/>
+          <text x="100" y="478" class="d-txt-m">Notify controller</text>
+          <text x="100" y="496" class="d-txt-m">without undue delay</text>
+          <!-- END: notify + late -->
+          <rect x="200" y="430" width="400" height="52" class="d-box-end-r" rx="3"/>
+          <text x="400" y="452" class="d-txt">Notify SA — include reason</text>
+          <text x="400" y="470" class="d-txt">for delay (Art. 33(1) proviso)</text>
+          <!-- END: notify in time -->
+          <rect x="620" y="440" width="150" height="52" class="d-box-end-g" rx="3"/>
+          <text x="695" y="462" class="d-txt-m">Notify SA within</text>
+          <text x="695" y="480" class="d-txt-m">72 hours ✓</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="work-footer">
+      <div class="work-tags">
+        <span class="work-tag">GDPR</span>
+        <span class="work-tag">Data Protection</span>
+        <span class="work-tag">CIPP/E</span>
+        <span class="work-tag">Breach of Confidence</span>
+        <span class="work-tag">Cybersecurity Law</span>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-preview" onclick="openModal('modal-gdpr')">⊙ Preview</button>
+        <a href="files/GDPR_Data_Breach_Legal_Advice.pdf" download="GDPR_Data_Breach_Legal_Advice.pdf" class="btn btn-download">↓ Download PDF</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ WORK 2: CISG ══ -->
+  <div class="work-item">
+    <div class="work-header">
+      <div class="work-meta">
+        <div class="work-year">2024</div>
+        <div class="work-category">International Contract Law<br>国际合同法</div>
+        <div class="work-badge">Top 10% · Bristol</div>
+      </div>
+      <div class="work-main">
+        <h3 class="work-en-title">Article 79 Exemption &amp; Fundamental Breach under CISG Art. 25</h3>
+        <div class="work-cn-title">CISG 免责条款与根本违约分析 · 布里斯托大学正式考试作业</div>
+        <div class="work-org">University of Bristol LLM — International Sale of Goods (LAWDM0143) · Cohort Top 10%</div>
+        <p class="work-desc">
+          A 3,978-word examination essay analysing whether an 80% price surge in a long-term coal supply contract
+          triggers Article 79 exemption, critically engaging with the Scafom case; and examining the ambiguities
+          in Article 25's "fundamental breach" standard through comparative case law.
+        </p>
+      </div>
+    </div>
+
+    <div class="work-diagram">
+      <span class="diagram-label">Legal Analysis · Art. 79 Four-Limb Test</span>
+      <div class="diagram-content">
+        <p style="font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.06em;color:var(--muted);font-style:italic;margin-bottom:1.2rem;">
+          Decision framework for Art. 79 CISG exemption — applied to an 80% coal price surge scenario.
+        </p>
+        <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;display:block;margin:0 auto;">
+          <style>
+            .c-box{fill:#1a1a18} .c-q{fill:none;stroke:#1a1a18;stroke-width:1.5} .c-end-g{fill:none;stroke:#3a6645;stroke-width:1.5} .c-end-r{fill:#f5f2eb;stroke:#c8c0b0;stroke-width:1.5}
+            .c-t{font-family:'Cormorant Garamond',serif;font-size:12.5px;fill:#1a1a18;text-anchor:middle}
+            .c-tw{font-family:'Cormorant Garamond',serif;font-size:13px;fill:#f5f2eb;text-anchor:middle}
+            .c-tm{font-family:'Cormorant Garamond',serif;font-size:11.5px;fill:#7a7468;text-anchor:middle}
+            .c-no{font-family:'DM Mono',monospace;font-size:9px;fill:#b94040}
+            .c-yes{font-family:'DM Mono',monospace;font-size:9px;fill:#3a6645}
+            .ln{stroke:#c8c0b0;stroke-width:1.5;fill:none} .ly{stroke:#3a6645;stroke-width:1.5;fill:none} .ln2{stroke:#b94040;stroke-width:1.5;fill:none}
+          </style>
+          <rect x="250" y="16" width="300" height="44" class="c-box" rx="3"/>
+          <text x="400" y="38" class="c-tw">Art. 79 CISG Exemption Claimed</text>
+          <text x="400" y="52" class="c-tw">by Seller</text>
+          <line x1="400" y1="60" x2="400" y2="88" class="ln"/><polygon points="400,88 395,78 405,78" fill="#c8c0b0"/>
+          <!-- Q1 -->
+          <rect x="190" y="88" width="420" height="48" class="c-q" rx="3"/>
+          <text x="400" y="108" class="c-t">Limb 1: Was the impediment beyond</text>
+          <text x="400" y="124" class="c-t">the party's control? (objective)</text>
+          <line x1="400" y1="136" x2="400" y2="162" class="ly"/><polygon points="400,162 395,152 405,152" fill="#3a6645"/>
+          <text x="413" y="152" class="c-yes">YES</text>
+          <line x1="190" y1="112" x2="80" y2="112" class="ln2"/><line x1="80" y1="112" x2="80" y2="440" class="ln2"/>
+          <text x="133" y="106" class="c-no">NO</text>
+          <!-- Q2 -->
+          <rect x="190" y="162" width="420" height="48" class="c-q" rx="3"/>
+          <text x="400" y="182" class="c-t">Limb 2: Could it not reasonably have</text>
+          <text x="400" y="198" class="c-t">been taken into account at formation?</text>
+          <line x1="400" y1="210" x2="400" y2="236" class="ly"/><polygon points="400,236 395,226 405,226" fill="#3a6645"/>
+          <text x="413" y="226" class="c-yes">YES</text>
+          <line x1="190" y1="186" x2="80" y2="186" class="ln2"/>
+          <text x="133" y="180" class="c-no">NO → fail</text>
+          <!-- Q3 -->
+          <rect x="190" y="236" width="420" height="48" class="c-q" rx="3"/>
+          <text x="400" y="256" class="c-t">Limb 3: Could the party not have</text>
+          <text x="400" y="272" class="c-t">avoided or overcome it?</text>
+          <line x1="400" y1="284" x2="400" y2="310" class="ly"/><polygon points="400,310 395,300 405,300" fill="#3a6645"/>
+          <text x="413" y="300" class="c-yes">YES</text>
+          <line x1="190" y1="260" x2="80" y2="260" class="ln2"/>
+          <text x="133" y="254" class="c-no">NO → fail</text>
+          <!-- Q4 -->
+          <rect x="190" y="310" width="420" height="48" class="c-q" rx="3"/>
+          <text x="400" y="330" class="c-t">Limb 4: Causal link between</text>
+          <text x="400" y="346" class="c-t">impediment and non-performance?</text>
+          <line x1="400" y1="358" x2="400" y2="386" class="ly"/><polygon points="400,386 395,376 405,376" fill="#3a6645"/>
+          <text x="413" y="376" class="c-yes">YES</text>
+          <line x1="190" y1="334" x2="80" y2="334" class="ln2"/>
+          <text x="133" y="328" class="c-no">NO → fail</text>
+          <!-- END: exemption -->
+          <rect x="240" y="386" width="320" height="52" class="c-end-g" rx="3"/>
+          <text x="400" y="408" class="c-tm">Exemption applies — liability</text>
+          <text x="400" y="424" class="c-tm">suspended for duration of impediment</text>
+          <!-- END: no exemption -->
+          <rect x="20" y="416" width="120" height="44" class="c-end-r" rx="3"/>
+          <text x="80" y="434" class="c-tm">No Art. 79</text>
+          <text x="80" y="450" class="c-tm">exemption</text>
+          <line x1="80" y1="440" x2="80" y2="460" class="ln2"/><polygon points="80,460 75,450 85,450" fill="#b94040"/>
+          <!-- note on scafom -->
+          <rect x="550" y="150" width="230" height="68" rx="3" fill="#faf8f3" stroke="#c8c0b0" stroke-width="1"/>
+          <text x="665" y="168" style="font-family:'DM Mono',monospace;font-size:8.5px;fill:#8b4513;text-anchor:middle">NOTE: Scafom error</text>
+          <text x="665" y="182" style="font-family:'Cormorant Garamond',serif;font-size:11px;fill:#7a7468;text-anchor:middle;font-style:italic">Belgian court wrongly applied</text>
+          <text x="665" y="196" style="font-family:'Cormorant Garamond',serif;font-size:11px;fill:#7a7468;text-anchor:middle;font-style:italic">UNIDROIT hardship to Art. 79</text>
+          <text x="665" y="210" style="font-family:'Cormorant Garamond',serif;font-size:11px;fill:#7a7468;text-anchor:middle;font-style:italic">— conflating two regimes.</text>
+          <line x1="550" y1="184" x2="610" y2="184" class="ln" stroke-dasharray="4,3"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="work-footer">
+      <div class="work-tags">
+        <span class="work-tag">CISG</span>
+        <span class="work-tag">UNIDROIT</span>
+        <span class="work-tag">Comparative Law</span>
+        <span class="work-tag">Contract Breach</span>
+        <span class="work-tag">International Trade</span>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-preview" onclick="openModal('modal-cisg')">⊙ Preview</button>
+        <a href="files/CISG_Art79_Art25_Essay.docx" download="CISG_Art79_Art25_Essay.docx" class="btn btn-download">↓ Download DOCX</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ WORK 3: ICC ══ -->
+  <div class="work-item">
+    <div class="work-header">
+      <div class="work-meta">
+        <div class="work-year">2023</div>
+        <div class="work-category">Moot Court<br>模拟法庭</div>
+        <div class="work-badge">Special Contribution Award</div>
+      </div>
+      <div class="work-main">
+        <h3 class="work-en-title">ICC Moot Court — Prosecution Memorial</h3>
+        <div class="work-cn-title">ICC 国际刑事法院中文赛 · 检方书状</div>
+        <div class="work-org">ICC Chinese Moot Court Competition · National — 87 Teams · Special Contribution Award</div>
+        <p class="work-desc">
+          As team captain and sole author, argued before the ICC Appeals Chamber in the Mege case —
+          addressing war crimes, crimes against humanity, and aiding &amp; abetting under the Rome Statute.
+          Cited by evaluators for clarity of legal logic and depth of case law research.
+        </p>
+      </div>
+    </div>
+
+    <div class="work-diagram">
+      <span class="diagram-label">Legal Analysis · Art. 25.3(c) Aiding &amp; Abetting Framework</span>
+      <div class="diagram-content">
+        <p style="font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.06em;color:var(--muted);font-style:italic;margin-bottom:1.2rem;">
+          Two-limb test for individual criminal responsibility under Rome Statute Art. 25.3(c) — applied to a remote arms-supply scenario.
+        </p>
+        <svg viewBox="0 0 800 440" xmlns="http://www.w3.org/2000/svg" style="max-width:700px;display:block;margin:0 auto;">
+          <rect x="240" y="16" width="320" height="44" rx="3" fill="#1a1a18"/>
+          <text x="400" y="38" style="font-family:'Cormorant Garamond',serif;font-size:13px;fill:#f5f2eb;text-anchor:middle">Art. 25.3(c): Aiding &amp; Abetting</text>
+          <text x="400" y="52" style="font-family:'Cormorant Garamond',serif;font-size:13px;fill:#f5f2eb;text-anchor:middle">Liability Assessment</text>
+          <line x1="400" y1="60" x2="400" y2="90" stroke="#c8c0b0" stroke-width="1.5"/>
+          <!-- Two columns -->
+          <line x1="400" y1="90" x2="200" y2="90" stroke="#c8c0b0" stroke-width="1.5"/>
+          <line x1="400" y1="90" x2="600" y2="90" stroke="#c8c0b0" stroke-width="1.5"/>
+          <line x1="200" y1="90" x2="200" y2="116" stroke="#c8c0b0" stroke-width="1.5"/><polygon points="200,116 195,106 205,106" fill="#c8c0b0"/>
+          <line x1="600" y1="90" x2="600" y2="116" stroke="#c8c0b0" stroke-width="1.5"/><polygon points="600,116 595,106 605,106" fill="#c8c0b0"/>
+          <!-- Limb A header -->
+          <rect x="60" y="116" width="280" height="38" rx="3" fill="none" stroke="#8b4513" stroke-width="1.5"/>
+          <text x="200" y="130" style="font-family:'DM Mono',monospace;font-size:9px;fill:#8b4513;text-anchor:middle;letter-spacing:0.1em">ACTUS REUS</text>
+          <text x="200" y="146" style="font-family:'Cormorant Garamond',serif;font-size:12px;fill:#1a1a18;text-anchor:middle">Objective Elements</text>
+          <!-- Limb B header -->
+          <rect x="460" y="116" width="280" height="38" rx="3" fill="none" stroke="#3a6645" stroke-width="1.5"/>
+          <text x="600" y="130" style="font-family:'DM Mono',monospace;font-size:9px;fill:#3a6645;text-anchor:middle;letter-spacing:0.1em">MENS REA</text>
+          <text x="600" y="146" style="font-family:'Cormorant Garamond',serif;font-size:12px;fill:#1a1a18;text-anchor:middle">Subjective Elements</text>
+          <!-- Actus items -->
+          <rect x="60" y="170" width="280" height="44" rx="2" fill="#faf8f3" stroke="#c8c0b0" stroke-width="1"/>
+          <text x="200" y="188" style="font-family:'Cormorant Garamond',serif;font-size:11.5px;fill:#1a1a18;text-anchor:middle">Practical assistance provided</text>
+          <text x="200" y="204" style="font-family:'Cormorant Garamond',serif;font-size:11px;fill:#7a7468;text-anchor:middle;font-style:italic">(arms, training, guidance)</text>
+          <line x1="200" y1="154" x2="200" y2="170" stroke="#c8c0b0" stroke-width="1.5"/>
+          <rect x="60" y="228" width="280" height="44" rx="2" fill="#faf8f3" stroke="#c8c0b0" stroke-width="1"/>
+          <text x="200" y="246" style="font-family:'Cormorant Garamond',serif;font-size:11.5px;fill:#1a1a18;text-anchor:middle">Substantial effect on commission</text>
+          <text x="200" y="262" style="font-family:'Cormorant Garamond',serif;font-size:11px;fill:#7a7468;text-anchor:middle;font-style:italic">(Bemba: "promoted or pushed forward")</text>
+          <line x1="200" y1="214" x2="200" y2="228" stroke="#c8c0b0" stroke-width="1.5"/>
+          <rect x="60" y="286" width="280" height="44" rx="2" fill="#faf8f3" stroke="#c8c0b0" stroke-width="1"/>
+          <text x="200" y="304" style="font-family:'Cormorant Garamond',serif;font-size:11.5px;fill:#1a1a18;text-anchor:middle">Physical presence not required</text>
+          <text x="200" y="320" style="font-family:'Cormorant Garamond',serif;font-size:11px;fill:#7a7468;text-anchor:middle;font-style:italic">(assistance before, during or after)</text>
+          <line x1="200" y1="272" x2="200" y2="286" stroke="#c8c0b0" stroke-width="1.5"/>
+          <!-- Mens rea items -->
+          <rect x="460" y="170" width="280" height="44" rx="2" fill="#faf8f3" stroke="#c8c0b0" stroke-width="1"/>
+          <text x="600" y="188" style="font-family:'Cormorant Garamond',serif;font-size:11.5px;fill:#1a1a18;text-anchor:middle">Knowledge that act facilitates</text>
+          <text x="600" y="204" style="font-family:'Cormorant Garamond',serif;font-size:11px;fill:#7a7468;text-anchor:middle;font-style:italic">principal's crime (Art. 25.3(c))</text>
+          <line x1="600" y1="154" x2="600" y2="170" stroke="#c8c0b0" stroke-width="1.5"/>
+          <rect x="460" y="228" width="280" height="44" rx="2" fill="#faf8f3" stroke="#c8c0b0" stroke-width="1"/>
+          <text x="600" y="246" style="font-family:'Cormorant Garamond',serif;font-size:11.5px;fill:#1a1a18;text-anchor:middle">Purpose to facilitate OR</text>
+          <text x="600" y="262" style="font-family:'Cormorant Garamond',serif;font-size:11px;fill:#7a7468;text-anchor:middle;font-style:italic">awareness crime will occur (Art. 30)</text>
+          <line x1="600" y1="214" x2="600" y2="228" stroke="#c8c0b0" stroke-width="1.5"/>
+          <rect x="460" y="286" width="280" height="44" rx="2" fill="#faf8f3" stroke="#c8c0b0" stroke-width="1"/>
+          <text x="600" y="304" style="font-family:'Cormorant Garamond',serif;font-size:11.5px;fill:#1a1a18;text-anchor:middle">No requirement to share</text>
+          <text x="600" y="320" style="font-family:'Cormorant Garamond',serif;font-size:11px;fill:#7a7468;text-anchor:middle;font-style:italic">principal's specific intent</text>
+          <line x1="600" y1="272" x2="600" y2="286" stroke="#c8c0b0" stroke-width="1.5"/>
+          <!-- converge -->
+          <line x1="200" y1="330" x2="200" y2="370" stroke="#c8c0b0" stroke-width="1.5"/>
+          <line x1="600" y1="330" x2="600" y2="370" stroke="#c8c0b0" stroke-width="1.5"/>
+          <line x1="200" y1="370" x2="600" y2="370" stroke="#c8c0b0" stroke-width="1.5"/>
+          <line x1="400" y1="370" x2="400" y2="394" stroke="#3a6645" stroke-width="1.5"/>
+          <polygon points="400,394 395,384 405,384" fill="#3a6645"/>
+          <rect x="240" y="394" width="320" height="38" rx="3" fill="none" stroke="#3a6645" stroke-width="1.5"/>
+          <text x="400" y="410" style="font-family:'Cormorant Garamond',serif;font-size:12px;fill:#3a6645;text-anchor:middle">Both limbs satisfied → Individual criminal</text>
+          <text x="400" y="426" style="font-family:'Cormorant Garamond',serif;font-size:12px;fill:#3a6645;text-anchor:middle">responsibility established under Art. 25.3(c)</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="work-footer">
+      <div class="work-tags">
+        <span class="work-tag">Rome Statute</span>
+        <span class="work-tag">International Criminal Law</span>
+        <span class="work-tag">War Crimes</span>
+        <span class="work-tag">ICC Procedure</span>
+        <span class="work-tag">Legal Advocacy</span>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-preview" onclick="openModal('modal-icc')">⊙ Preview</button>
+        <a href="files/ICC_Prosecution_Memorial_Mege.pdf" download="ICC_Prosecution_Memorial_Mege.pdf" class="btn btn-download">↓ Download PDF</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ WORK 4: MSC MEMO ══ -->
+  <div class="work-item">
+    <div class="work-header">
+      <div class="work-meta">
+        <div class="work-year">2025</div>
+        <div class="work-category">Smart Legal Contracts<br>智能法律合同</div>
+        <div class="work-badge">Commercial Practice</div>
+      </div>
+      <div class="work-main">
+        <h3 class="work-en-title">Smart Legal Contract Analysis — MSC v CML &amp; ATI</h3>
+        <div class="work-cn-title">智能法律合同风险分析 · 医疗物资供应链纠纷</div>
+        <div class="work-org">Commercial Law Virtual Training · Simulated Client Advisory Memo</div>
+        <p class="work-desc">
+          An internal advisory memo analysing a three-party smart legal contract dispute in the medical supply chain.
+          The case involves automated payment triggers, a tampered IoT temperature sensor, and conflicting indemnity provisions —
+          illustrating the "oracle problem" in blockchain-based contract execution.
+        </p>
+      </div>
+    </div>
+
+    <div class="work-diagram">
+      <span class="diagram-label">Legal Analysis · Oracle Problem &amp; Payment Trigger Map</span>
+      <div class="diagram-content">
+        <p style="font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.06em;color:var(--muted);font-style:italic;margin-bottom:1.2rem;">
+          Maps how the misaligned automated payment triggers created compounding liability exposure for MSC across both contracts.
+        </p>
+        <svg viewBox="0 0 820 480" xmlns="http://www.w3.org/2000/svg" style="max-width:760px;display:block;margin:0 auto;">
+          <!-- Parties -->
+          <rect x="340" y="16" width="140" height="40" rx="3" fill="#1a1a18"/>
+          <text x="410" y="41" style="font-family:'DM Mono',monospace;font-size:11px;fill:#f5f2eb;text-anchor:middle;letter-spacing:0.08em">MSC</text>
+          <rect x="30" y="16" width="140" height="40" rx="3" fill="none" stroke="#1a1a18" stroke-width="1.5"/>
+          <text x="100" y="41" style="font-family:'DM Mono',monospace;font-size:11px;fill:#1a1a18;text-anchor:middle;letter-spacing:0.08em">CML</text>
+          <rect x="650" y="16" width="140" height="40" rx="3" fill="none" stroke="#1a1a18" stroke-width="1.5"/>
+          <text x="720" y="41" style="font-family:'DM Mono',monospace;font-size:11px;fill:#1a1a18;text-anchor:middle;letter-spacing:0.08em">ATI</text>
+          <!-- contract lines -->
+          <line x1="170" y1="36" x2="340" y2="36" stroke="#c8c0b0" stroke-width="1.5" stroke-dasharray="5,3"/>
+          <text x="255" y="28" style="font-family:'DM Mono',monospace;font-size:8px;fill:#8b4513;text-anchor:middle">SUPPLY CONTRACT</text>
+          <line x1="480" y1="36" x2="650" y2="36" stroke="#c8c0b0" stroke-width="1.5" stroke-dasharray="5,3"/>
+          <text x="565" y="28" style="font-family:'DM Mono',monospace;font-size:8px;fill:#8b4513;text-anchor:middle">DELIVERY CONTRACT</text>
+          <!-- IoT trigger box -->
+          <rect x="300" y="90" width="220" height="54" rx="3" fill="#faf8f3" stroke="#8b4513" stroke-width="1.5"/>
+          <text x="410" y="110" style="font-family:'DM Mono',monospace;font-size:8.5px;fill:#8b4513;text-anchor:middle;letter-spacing:0.08em">ORACLE: IoT TEMP SENSOR</text>
+          <text x="410" y="126" style="font-family:'Cormorant Garamond',serif;font-size:11.5px;fill:#1a1a18;text-anchor:middle">ATI truck reads &lt; 4°C throughout</text>
+          <text x="410" y="140" style="font-family:'Cormorant Garamond',serif;font-size:11px;fill:#7a7468;text-anchor:middle;font-style:italic">(suspected manipulation with ice)</text>
+          <line x1="410" y1="56" x2="410" y2="90" stroke="#c8c0b0" stroke-width="1.5"/>
+          <!-- Docking -->
+          <rect x="300" y="172" width="220" height="38" rx="3" fill="#1a1a18"/>
+          <text x="410" y="196" style="font-family:'Cormorant Garamond',serif;font-size:12px;fill:#f5f2eb;text-anchor:middle">Docking Station auto-accepts</text>
+          <line x1="410" y1="144" x2="410" y2="172" stroke="#c8c0b0" stroke-width="1.5"/>
+          <!-- Two payments fire simultaneously -->
+          <line x1="410" y1="210" x2="410" y2="236" stroke="#c8c0b0" stroke-width="1.5"/>
+          <line x1="410" y1="236" x2="160" y2="236" stroke="#c8c0b0" stroke-width="1.5"/>
+          <line x1="410" y1="236" x2="660" y2="236" stroke="#c8c0b0" stroke-width="1.5"/>
+          <line x1="160" y1="236" x2="160" y2="258" stroke="#3a6645" stroke-width="1.5"/>
+          <polygon points="160,258 155,248 165,248" fill="#3a6645"/>
+          <line x1="660" y1="236" x2="660" y2="258" stroke="#3a6645" stroke-width="1.5"/>
+          <polygon points="660,258 655,248 665,248" fill="#3a6645"/>
+          <rect x="60" y="258" width="200" height="44" rx="3" fill="none" stroke="#3a6645" stroke-width="1.5"/>
+          <text x="160" y="276" style="font-family:'Cormorant Garamond',serif;font-size:11.5px;fill:#3a6645;text-anchor:middle">CML pays MSC £950k</text>
+          <text x="160" y="292" style="font-family:'Cormorant Garamond',serif;font-size:10.5px;fill:#7a7468;text-anchor:middle;font-style:italic">(Supply Contract, cl.4)</text>
+          <rect x="560" y="258" width="200" height="44" rx="3" fill="none" stroke="#3a6645" stroke-width="1.5"/>
+          <text x="660" y="276" style="font-family:'Cormorant Garamond',serif;font-size:11.5px;fill:#3a6645;text-anchor:middle">MSC pays ATI £50k</text>
+          <text x="660" y="292" style="font-family:'Cormorant Garamond',serif;font-size:10.5px;fill:#7a7468;text-anchor:middle;font-style:italic">(Delivery Contract, cl.5)</text>
+          <!-- 3hr gap -->
+          <line x1="160" y1="302" x2="160" y2="330" stroke="#c8c0b0" stroke-width="1.5"/>
+          <rect x="60" y="330" width="200" height="38" rx="3" fill="#faf8f3" stroke="#c8c0b0" stroke-width="1"/>
+          <text x="160" y="346" style="font-family:'DM Mono',monospace;font-size:8px;fill:#7a7468;text-anchor:middle">3-HOUR STORAGE GAP</text>
+          <text x="160" y="360" style="font-family:'Cormorant Garamond',serif;font-size:11px;fill:#7a7468;text-anchor:middle;font-style:italic">CML sample testing</text>
+          <!-- fail -->
+          <line x1="160" y1="368" x2="160" y2="394" stroke="#b94040" stroke-width="1.5"/>
+          <polygon points="160,394 155,384 165,384" fill="#b94040"/>
+          <rect x="40" y="394" width="240" height="52" rx="3" fill="none" stroke="#b94040" stroke-width="1.5"/>
+          <text x="160" y="412" style="font-family:'Cormorant Garamond',serif;font-size:11.5px;fill:#b94040;text-anchor:middle">15% supplies fail — indemnity</text>
+          <text x="160" y="428" style="font-family:'Cormorant Garamond',serif;font-size:11.5px;fill:#b94040;text-anchor:middle">triggered: MSC repays £950k</text>
+          <text x="160" y="444" style="font-family:'Cormorant Garamond',serif;font-size:10px;fill:#7a7468;text-anchor:middle;font-style:italic">(Supply Contract, cl.8 — "found by CML")</text>
+          <!-- gap note -->
+          <rect x="460" y="330" width="300" height="68" rx="3" fill="#faf8f3" stroke="#8b4513" stroke-width="1"/>
+          <text x="610" y="350" style="font-family:'DM Mono',monospace;font-size:8px;fill:#8b4513;text-anchor:middle;letter-spacing:0.08em">DRAFTING GAP</text>
+          <text x="610" y="366" style="font-family:'Cormorant Garamond',serif;font-size:11px;fill:#7a7468;text-anchor:middle;font-style:italic">Cl.6 Delivery Contract only fires</text>
+          <text x="610" y="382" style="font-family:'Cormorant Garamond',serif;font-size:11px;fill:#7a7468;text-anchor:middle;font-style:italic">if Docking Station rejects order.</text>
+          <text x="610" y="396" style="font-family:'Cormorant Garamond',serif;font-size:11px;fill:#b94040;text-anchor:middle;font-style:italic">MSC cannot claim from ATI.</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="work-footer">
+      <div class="work-tags">
+        <span class="work-tag">Smart Contracts</span>
+        <span class="work-tag">Supply Chain Law</span>
+        <span class="work-tag">Contract Drafting</span>
+        <span class="work-tag">Blockchain / IoT</span>
+        <span class="work-tag">Client Advisory</span>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-preview" onclick="openModal('modal-msc')">⊙ Preview</button>
+        <a href="files/MSC_Internal_Memo.docx" download="MSC_Internal_Memo.docx" class="btn btn-download">↓ Download DOCX</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title">About · 关于我</h2>
+    <div class="section-rule"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>
+        I graduated from the <strong>University of Bristol LLM in International Commercial Law</strong> (February 2026, cohort top 10%),
+        building on a law undergraduate degree from <strong>China University of Mining and Technology</strong>.
+      </p>
+      <p>
+        I hold the <strong>Chinese National Legal Professional Qualification</strong> and the <strong>CIPP/E</strong> EU privacy compliance certification.
+        English proficiency: <strong>PTE 74 (equivalent to IELTS 7.5–8.0)</strong>, capable of independently handling legal matters in English.
+      </p>
+      <p>
+        My practice interest sits at the intersection of <strong>international commercial contracts, cross-border data compliance,
+        and emerging technology law</strong> — areas where legal precision and technical literacy are both required.
+        I am drawn to compliance not as a bureaucratic function, but as a strategic discipline shaped by AI disruption and regulatory evolution.
+      </p>
+      <p>
+        During my studies I participated in virtual training programmes with
+        <strong>Herbert Smith Freehills, Clifford Chance, and DLA Piper</strong>,
+        and contributed to national research projects on medical data legal protection.
+      </p>
+      <div class="certs-grid">
+        <div class="cert-card"><div class="cert-icon">⚖</div><div class="cert-name">National Legal Professional Qualification</div><div class="cert-sub">国家法律职业资格证</div></div>
+        <div class="cert-card"><div class="cert-icon">🔒</div><div class="cert-name">CIPP/E</div><div class="cert-sub">EU Privacy Compliance / Europe</div></div>
+        <div class="cert-card"><div class="cert-icon">🎓</div><div class="cert-name">Bristol LLM · Top 10%</div><div class="cert-sub">International Commercial Law · 2026</div></div>
+        <div class="cert-card"><div class="cert-icon">🌐</div><div class="cert-name">PTE Academic 74</div><div class="cert-sub">Equivalent to IELTS 7.5–8.0</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="hero-quote" style="margin-bottom:2rem;">
+        "Compliance work interests me precisely because it sits at the intersection of law, technology,
+        and business strategy — where the rules are still being written."
+        <cite>— Claire Zhang</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-left">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Contact</h2>
+      <div class="section-rule"></div>
+    </div>
+    <h2 style="font-size:2.3rem;font-weight:300;line-height:1.25;margin-bottom:1.5rem;">Open to<br><em>opportunities</em></h2>
+    <p style="font-size:0.95rem;color:var(--muted);font-style:italic;line-height:1.9;">
+      Bilingual (Chinese / English). Available immediately for interviews and onboarding.
+    </p>
+  </div>
+  <div class="contact-right">
+    <div class="contact-item"><span class="contact-label">Email</span><span class="contact-value"><a href="mailto:z_yajuanlaw@163.com">z_yajuanlaw@163.com</a></span></div>
+    <div class="contact-item"><span class="contact-label">Phone</span><span class="contact-value">+86 157 3560 0523</span></div>
+    <div class="contact-item"><span class="contact-label">Location</span><span class="contact-value">China · Major Cities</span></div>
+    <div class="contact-item"><span class="contact-label">Languages</span><span class="contact-value">Mandarin (Native) · English (PTE 74)</span></div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Yajuan Zhang · 张疋娟</span>
+  <span>University of Bristol LLM · International Commercial Law</span>
+</footer>
+
+<!-- ══ MODALS ══ -->
+<div class="modal-overlay" id="modal-gdpr" onclick="closeModalOutside(event, 'modal-gdpr')">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">GDPR Data Breach — Preliminary Legal Advice</div>
+      <button class="modal-close" onclick="closeModal('modal-gdpr')">CLOSE ×</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-section-label">Document Type &amp; Context</div>
+        <p>Preliminary legal advice memo prepared as part of the HSF / Clifford Chance / DLA Piper digital law virtual training programme, University of Bristol. Acting as legal counsel to Alpha Tech Ltd. following a cyberattack and data breach at its EU colocation data centre.</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-label">Executive Summary (§2)</div>
+        <div class="modal-excerpt">
+          <blockquote>"Alpha Tech may have good legal grounds to defend both claims. For the breach of confidence claim, Alpha Tech can argue that the data was not confidential or that Beta Corp failed to protect it. For the GDPR claim, Alpha Tech can argue that the data was anonymised or that it acted only as a data processor, following Beta Corp's instructions."</blockquote>
+        </div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-label">Key Arguments Developed</div>
+        <div class="modal-excerpt">
+          <ul>
+            <li>Patent documents are published post-registration and lose their confidential character — undermining the breach of confidence claim at its foundation</li>
+            <li>Alpha Tech's role as a colocation provider is distinguishable from a data controller under GDPR Art. 4 — processor status limits liability</li>
+            <li>If Beta Corp anonymised the health data prior to storage, GDPR does not apply — the threshold question of "personal data" is contested</li>
+            <li>Beta Corp, as a non-data-subject, lacks standing to claim individual compensation under GDPR — damages require proof of harm by the affected individuals</li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-download">
+        <a href="files/GDPR_Data_Breach_Legal_Advice.pdf" download="GDPR_Data_Breach_Legal_Advice.pdf" class="btn btn-download">↓ Download Full PDF</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-cisg" onclick="closeModalOutside(event, 'modal-cisg')">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">Art. 79 Exemption &amp; Fundamental Breach under CISG Art. 25</div>
+      <button class="modal-close" onclick="closeModal('modal-cisg')">CLOSE ×</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-section-label">Document Type &amp; Context</div>
+        <p>Formal examination essay (3,978 words), University of Bristol LLM — International Sale of Goods (LAWDM0143). Written under assessment conditions; ranked in the cohort top 10%.</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-label">Question 1 — Art. 79 and the Scafom Problem</div>
+        <div class="modal-excerpt">
+          <blockquote>"The Belgian court's reasoning in Scafom conflates the CISG's exemption framework with the UNIDROIT hardship doctrine — two distinct legal instruments that operate on fundamentally different thresholds and produce different legal consequences."</blockquote>
+          <ul>
+            <li>Applies the four-limb Art. 79 test to an 80% coal price surge: foreseeability at formation is the critical limb — commercial price risk is typically foreseeable and assumed by the seller</li>
+            <li>UNIDROIT Principles apply only where parties have agreed to their application, or no applicable national law exists — they do not supplement CISG by default</li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-label">Question 2 — Art. 25 Fundamental Breach</div>
+        <div class="modal-excerpt">
+          <ul>
+            <li>The "substantial deprivation" test under Art. 25 is assessed objectively, but courts diverge on how to weight the aggrieved party's legitimate expectations vs. the breaching party's foreseeability</li>
+            <li>Comparative analysis of German, French, and English case law reveals that the standard's flexibility produces unpredictable outcomes in practice — a structural limitation of the CISG</li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-download">
+        <a href="files/CISG_Art79_Art25_Essay.docx" download="CISG_Art79_Art25_Essay.docx" class="btn btn-download">↓ Download Full DOCX</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-icc" onclick="closeModalOutside(event, 'modal-icc')">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">ICC Moot Court — Prosecution Memorial (Mege Case)</div>
+      <button class="modal-close" onclick="closeModal('modal-icc')">CLOSE ×</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-section-label">Document Type &amp; Context</div>
+        <p>Prosecution memorial submitted in the ICC Chinese Moot Court Competition (national, 87 teams). Written as team captain and sole author; received the Special Contribution Award. Argued before the Appeals Chamber on charges of war crimes and crimes against humanity.</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-label">Core Arguments Summary</div>
+        <div class="modal-excerpt">
+          <ul>
+            <li><strong>Jurisdiction:</strong> Art. 24.1 non-retroactivity does not bar ICC jurisdiction — Mege's arms supply was a continuing act extending into Ibein's post-ratification period (August 2020)</li>
+            <li><strong>Crimes against humanity (Art. 7):</strong> Tawochi attacks were widespread and systematic, directed against a civilian population — "collateral damage" framing rejected; State-organised drone strikes constitute policy-based attacks</li>
+            <li><strong>War crimes (Art. 8):</strong> Hospitals and schools used as pirate hideouts do not lose protected status — military necessity cannot justify intentional attacks on non-military targets</li>
+            <li><strong>Art. 25.3(c) aiding &amp; abetting:</strong> Supplying precision-kill drones with knowledge they would be used against civilians satisfies both the actus reus (substantial effect) and mens rea (awareness, not specific intent required)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-download">
+        <a href="files/ICC_Prosecution_Memorial_Mege.pdf" download="ICC_Prosecution_Memorial_Mege.pdf" class="btn btn-download">↓ Download Full PDF</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-msc" onclick="closeModalOutside(event, 'modal-msc')">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">Smart Legal Contract Analysis — MSC v CML &amp; ATI</div>
+      <button class="modal-close" onclick="closeModal('modal-msc')">CLOSE ×</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="modal-section-label">Document Type &amp; Context</div>
+        <p>Internal advisory memo prepared for a senior associate ahead of a client call. Analyses a three-party smart legal contract dispute in the pharmaceutical supply chain — covering drafting defects, breach of contract claims, indemnity challenges, and SLC improvement recommendations.</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-label">The Oracle Problem</div>
+        <div class="modal-excerpt">
+          <blockquote>"The oracle problem is embedded in all SLCs: where a smart contract's execution depends on third-party data inputs, the security and authenticity of that oracle becomes a legal risk, not merely a technical one."</blockquote>
+        </div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-label">Key Arguments Developed</div>
+        <div class="modal-excerpt">
+          <ul>
+            <li><strong>Drafting gap:</strong> Clause 6 Delivery Contract only activates on Docking Station rejection — since the tampered sensor showed compliant readings, ATI avoids liability despite probable transit spoilage</li>
+            <li><strong>Independent breach route:</strong> Clause 3 Delivery Contract imposes a temperature obligation independent of sensor readings — MSC can pursue breach of contract damages on this basis regardless of Clause 6</li>
+            <li><strong>Challenging the indemnity:</strong> "Found by CML" is entirely subjective with no reasonableness requirement; the 3-hour storage gap creates an alternative causation argument — damage may have occurred post-delivery</li>
+            <li><strong>Reform recommendations:</strong> Align payment triggers with sample testing; introduce sensor certification; add objectivity and prior consultation requirements to indemnity clauses</li>
+          </ul>
+        </div>
+      </div>
+      <div class="modal-download">
+        <a href="files/MSC_Internal_Memo.docx" download="MSC_Internal_Memo.docx" class="btn btn-download">↓ Download Full DOCX</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleDiagram(btn) {
+  btn.classList.toggle('open');
+  const content = btn.nextElementSibling;
+  content.classList.toggle('open');
+}
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeModalOutside(e, id) {
+  if (e.target === document.getElementById(id)) closeModal(id);
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.open').forEach(m => {
+      m.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  }
+});
+</script>
+</body>
+</html>
